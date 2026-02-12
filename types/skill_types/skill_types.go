@@ -4,7 +4,7 @@ package skill_types
 type SkillArguments map[string]interface{}
 
 // SkillFunc 是所有技能实现必须遵循的函数签名
-type SkillFunc func(SkillArguments) (string, error)
+type SkillFunc func(SkillArguments) (interface{}, error)
 
 // SkillParameter 描述技能的一个参数
 type SkillParameter struct {
@@ -25,5 +25,5 @@ type SkillDefinition struct {
 	Name        string      `json:"name"`
 	Description string      `json:"description"`
 	Parameters  SkillSchema `json:"parameters"`
-	Function    SkillFunc   `json:"-"` // 不参与 JSON 序列化，仅在本地执行时使用
+	Function    SkillFunc   `json:"-"` // llm_driven则为空，code_driven则为具体实现，不参与 JSON 序列化，仅在本地执行时使用
 }

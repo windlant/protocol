@@ -11,7 +11,7 @@ type A2AProtocol struct{}
 
 // HTTP 路径常量
 const (
-	// Agent 发现和元数据
+	// Agent 发现和元数据，目前使用注册中心，暂时用不到
 	AgentCardPath = "/.well-known/agent.json"
 
 	// 任务管理
