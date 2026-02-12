@@ -11,13 +11,15 @@ const (
 // MCP 请求结构
 
 type MCPListToolsRequest struct {
-	Method string `json:"method"` // 必须为 "list_tools"
+	Method  string `json:"method"`             // 必须为 "list_tools"
+	AgentID string `json:"agent_id,omitempty"` // 可选的 Agent ID，用于权限控制
 }
 
 type MCPToolCallRequest struct {
-	Method string                 `json:"method"` // 必须为 "call_tool"
-	Name   string                 `json:"name"`
-	Args   map[string]interface{} `json:"arguments"`
+	Method  string                 `json:"method"` // 必须为 "call_tool"
+	Name    string                 `json:"name"`
+	Args    map[string]interface{} `json:"arguments"`
+	AgentID string                 `json:"agent_id,omitempty"` // 可选的 Agent ID，用于权限控制
 }
 
 // MCP 响应结构
