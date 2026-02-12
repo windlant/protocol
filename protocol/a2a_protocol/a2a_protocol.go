@@ -1,9 +1,8 @@
 package a2a_protocol
 
 import (
-	"errors"
+	"time"
 
-	"github.com/windlant/protocol/types/agent_types"
 	"github.com/windlant/protocol/types/skill_types"
 )
 
@@ -24,6 +23,23 @@ const (
 	MessagePath  = "/messages/{messageId}"
 )
 
+// Task 表示发送给 Agent 的任务
+type Task struct {
+	TaskID    string                     `json:"taskId"`
+	AgentID   string                     `json:"agentId"` // 目标 Agent ID
+	SkillID   string                     `json:"skillId"` // 要调用的技能 ID
+	Input     skill_types.SkillArguments `json:"input"`   // 任务输入数据
+	CreatedAt time.Time                  `json:"createdAt"`
+}
+
+// TaskResult 表示任务执行结果
+type TaskResult struct {
+	TaskID   string      `json:"taskId"`
+	Success  bool        `json:"success"`
+	Artifact interface{} `json:"artifact,omitempty"`
+	Error    string      `json:"error,omitempty"`
+}
+
 // CreateTaskRequest 创建任务的请求格式
 type CreateTaskRequest struct {
 	AgentID string                     `json:"agentId"`
@@ -36,65 +52,24 @@ type CreateTaskResponse struct {
 	TaskID string `json:"taskId"`
 }
 
+type Part struct {
+	Type    string      `json:"type"` // "text" 或 "file"或 "json"
+	Content interface{} `json:"content"`
+}
+
+type Message struct {
+	MessageID string `json:"messageId"`
+	Role      string `json:"role"`
+	Parts     []Part `json:"parts"`
+}
+
 // SendMessageRequest 发送消息的请求格式
 type SendMessageRequest struct {
-	ToAgentID string                  `json:"toAgentId"`
-	Type      agent_types.MessageType `json:"type"`
-	Content   interface{}             `json:"content"`
+	ToAgentID string `json:"toAgentId"`
+	Message   string `json:"message"`
 }
 
 // SendMessageResponse 发送消息的响应格式
 type SendMessageResponse struct {
-	MessageID string `json:"messageId"`
-}
-
-// NewA2AProtocol 创建 A2A 协议实例
-func NewA2AProtocol() *A2AProtocol {
-	return &A2AProtocol{}
-}
-
-// ValidateAgentCard 验证 AgentCard 的基本有效性
-func (p *A2AProtocol) ValidateAgentCard(card *agent_types.AgentCard) error {
-	if card.AgentID == "" {
-		return errors.New("agentId is required")
-	}
-	if card.Name == "" {
-		return errors.New("name is required")
-	}
-	if card.URL == "" {
-		return errors.New("url is required")
-	}
-
-	// 验证技能（如果有）
-	for _, skill := range card.Skills {
-		if skill.Name == "" {
-			return errors.New("skill name is required")
-		}
-		if skill.Description == "" {
-			return errors.New("skill description is required")
-		}
-	}
-
-	return nil
-}
-
-// ValidateMessage 验证消息的基本有效性
-func (p *A2AProtocol) ValidateMessage(msg *agent_types.Message) error {
-	if msg.MessageID == "" {
-		return errors.New("messageId is required")
-	}
-	if msg.FromAgentID == "" {
-		return errors.New("fromAgentId is required")
-	}
-	if msg.ToAgentID == "" {
-		return errors.New("toAgentId is required")
-	}
-	if msg.Type == "" {
-		return errors.New("message type is required")
-	}
-	if msg.Content == nil {
-		return errors.New("message content is required")
-	}
-
-	return nil
+	Message string `json:"message"`
 }
