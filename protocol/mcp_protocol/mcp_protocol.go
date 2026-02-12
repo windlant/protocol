@@ -1,6 +1,6 @@
-package protocol
+package mcp_protocol
 
-import "github.com/windlant/protocol/types"
+import "github.com/windlant/protocol/types/tools_types"
 
 // MCP 方法常量
 const (
@@ -23,7 +23,7 @@ type MCPToolCallRequest struct {
 // MCP 响应结构
 
 type MCPListToolsResponse struct {
-	Tools []types.ToolDefinition `json:"tools"`
+	Tools []tools_types.ToolDefinition `json:"tools"`
 }
 
 type MCPToolCallResponse struct {

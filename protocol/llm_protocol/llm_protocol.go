@@ -1,4 +1,4 @@
-package protocol
+package llm_protocol
 
 // Message 表示与 DeepSeek 函数调用兼容的聊天消息
 type Message struct {

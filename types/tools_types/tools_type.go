@@ -1,4 +1,4 @@
-package types
+package tools_types
 
 // ToolArguments 表示工具调用的输入参数
 type ToolArguments map[string]interface{}
