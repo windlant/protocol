@@ -35,6 +35,11 @@ type DeregisterRequest struct {
 	AgentID string `json:"agentId"`
 }
 
+// AgentsListRequest 获取所有已注册 Agent 的响应
+type AgentsListRequest struct {
+	AgentID string `json:"agentId"`
+}
+
 // AgentsListResponse 获取所有已注册 Agent 的响应
 type AgentsListResponse struct {
 	Agents []agent_types.AgentCard `json:"agents"`
